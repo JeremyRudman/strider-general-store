@@ -1,21 +1,47 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ReceiptCard from './ReceiptCard';
+import { Grid } from '@mui/material';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            receiptList: [],
+        };
+    }
+
+    async componentDidMount() {
+        const header = { headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+        }};
+        const response = await fetch("receipts.json", {header});
+        const data = await response.json();
+        this.setState({receiptList: data})
+    }
+
+    render() {
+        let cardList = this.state.receiptList.map((receipt) => {
+            return (
+                    <Grid item key={receipt.OrderId} spacing={3} className='receiptCardWrapper'>
+                        <ReceiptCard receiptData = {receipt}/>
+                    </Grid>
+                    );
+        })
+
+        return (
+        <div className="App">
+            <div className='cardsWrapper'>
+                <Grid container spacing={3}>
+                    {cardList}
+                </Grid>
+            </div>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 export default App;
