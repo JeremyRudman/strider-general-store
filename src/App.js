@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ReceiptCard from './ReceiptCard';
+import Header from './Header';
 import { Grid } from '@mui/material';
 
 class App extends Component {
@@ -26,19 +27,16 @@ class App extends Component {
     render() {
         let cardList = this.state.receiptList.map((receipt) => {
             return (
-                    <Grid item key={receipt.OrderId} spacing={3} className='receiptCardWrapper'>
-                        <ReceiptCard receiptData = {receipt}/>
-                    </Grid>
+                    <ReceiptCard key={receipt.OrderId} receiptData = {receipt}/>
                     );
         })
 
         return (
         <div className="App">
-            <div className='cardsWrapper'>
-                <Grid container spacing={3}>
-                    {cardList}
-                </Grid>
-            </div>
+            <Header/>
+            <Grid container spacing={3}>
+                {cardList}
+            </Grid>
         </div>
         );
     }
