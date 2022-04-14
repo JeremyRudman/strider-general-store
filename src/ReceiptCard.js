@@ -13,19 +13,24 @@ export default function ReceiptCard(props) {
         color: "#FFFFFF"
     }
 
+    const cardActionStyle = {
+        p: 1
+    }
+
+    // when a card is click on it goes the receipts page this programmatic route change
     const onCardClick = () => {
-        console.log(`/receipt/${props.receiptData.OrderId}`)
         navigate(`/receipt/${props.receiptData.OrderId}`);
     }
  
 
+    // uses a helper function to place the date provided into a more human readable format
     const dateObj = new Date(props.receiptData.Date);
     const dateString = `${getDateString(dateObj)} ${getTimeString(dateObj)}`;
 
     return (
         <Grid item xs={12} sm={6} md={4} lg={3}>
             <Card sx={cardStyle}>
-                <CardActionArea sx={{p: 1}} onClick={onCardClick}>
+                <CardActionArea sx={cardActionStyle} onClick={onCardClick}>
                     <Typography sx={textStyle} gutterBottom variant="h5" align="center">
                         Receipt #{props.receiptData.OrderId}
                     </Typography>

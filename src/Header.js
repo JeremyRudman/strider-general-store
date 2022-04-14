@@ -23,6 +23,7 @@ export default function Header() {
         mr: 1,
     }
 
+    // if the route is not on the home page a back button is added to the header
     const iconDisplayed = () =>{
         if(location.pathname !== '/'){
             return(

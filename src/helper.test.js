@@ -1,6 +1,6 @@
 import { getDateString, getTimeString } from './helper';
 
-describe('Testing getTimeString', () => {
+test('getTimeString', () => {
     it('should return morning time string', () => {
         var morningDate = new Date("2021-02-02 10:06:00.000");
         expect(getTimeString(morningDate)).toBe("10:06am")
@@ -26,7 +26,7 @@ describe('Testing getTimeString', () => {
     })
 });
 
-describe('Testing getDateString', () => {
+test('getDateString', () => {
     it('should return new years date string', () => {
         var newYearsDate = new Date("2000-01-01 10:06:00.000");
         expect(getDateString(newYearsDate)).toBe("01/01/2000")

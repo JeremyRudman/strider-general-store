@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import { getDateString, getTimeString } from './helper';
 
+// wraps the Typography component so that the styling prop doesn't need to overwritten on each Typography component
 const WhiteTypography = styled(Typography)(() => ({
     color: "#FFFFFF",
 }));
 
+// an async function reads the receipts from the json file and finds the one specific to this page
 async function getReceipt(setReceipt, setLoading, orderId) {
     const header = { headers: {
         'Content-Type': 'application/json',
@@ -36,13 +38,17 @@ export default function ReceiptPage() {
     const { receiptId } = useParams();
     const [receipt, setReceipt] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    // runs on component render to get the relevant receipts
     useEffect(() => {
         getReceipt(setReceipt, setLoading, receiptId)
     }, [])
 
+    // uses a helper function to place the date provided into a more human readable format
     const dateTimeString = () => { 
         return `${getDateString(new Date(receipt.Date))} ${getTimeString(new Date(receipt.Date))}`
     }
+
     const cardStyle = {
         backgroundColor: "#F5B125",
         mx: 2,
@@ -50,6 +56,7 @@ export default function ReceiptPage() {
     }
 
 
+    // goes through each of the items purchased to add the to receipt card
     const itemsPurchased = () => {
         const itemList = receipt.Items.map((itemInfo) => {
             return(
@@ -76,6 +83,9 @@ export default function ReceiptPage() {
             </div>
         )
     }
+
+
+    // waits until the receipt is fetched before rendering the detailed card
     if(!loading){
         return(
             <Grid container sx={{justifyContent: "center"}}>
