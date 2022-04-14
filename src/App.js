@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ReceiptCard from './ReceiptCard';
 import Header from './Header';
-import { Grid } from '@mui/material';
-
+import Homepage from './Homepage';
+import ReceiptPage from './ReceiptPage';
 class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             receiptList: [],
+            receiptMap: {},
+            loading: true,
         };
     }
 
@@ -21,24 +22,38 @@ class App extends Component {
         }};
         const response = await fetch("receipts.json", {header});
         const data = await response.json();
-        this.setState({receiptList: data})
+        const receiptMap = new Map(
+            data.map(receipt => {
+                return [receipt.OrderId, receipt]
+            })
+        )
+        this.setState({
+            receiptList: data,
+            receiptMap: receiptMap,
+            loading: false})
     }
 
     render() {
-        let cardList = this.state.receiptList.map((receipt) => {
+        if(!this.state.loading){
+            console.log(this.state.receiptMap)
             return (
-                    <ReceiptCard key={receipt.OrderId} receiptData = {receipt}/>
-                    );
-        })
-
-        return (
-        <div className="App">
-            <Header/>
-            <Grid container spacing={3}>
-                {cardList}
-            </Grid>
-        </div>
-        );
+                <div className="App">
+                    <Router>
+                        <Header/>
+                        <Routes>
+                            <Route path="/" exact element={<Homepage receiptList={this.state.receiptList}/>}/>
+                            <Route path="/receipt/:receiptId" element={<ReceiptPage receiptMap={this.state.receiptMap}/>}/>
+                        </Routes>
+                    </Router>
+                </div>
+            );
+        } else{
+            return (
+                <Router>
+                    <Header/>
+                </Router>
+            )
+        }
     }
 }
 
