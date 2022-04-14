@@ -1,4 +1,8 @@
 export function getDateString(dateObj){
+    if(!(dateObj instanceof Date) || isNaN(dateObj)){
+        return null;
+    }
+
     var month;
     var day;
     var year = dateObj.getFullYear();
@@ -22,6 +26,10 @@ export function getDateString(dateObj){
 }
 
 export function getTimeString(dateObj){
+    if(!(dateObj instanceof Date) || isNaN(dateObj)){
+        return null;
+    }
+
     var hour;
     var minute;
     var amPm;
