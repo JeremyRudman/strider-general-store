@@ -5,7 +5,7 @@ import { getDateString, getTimeString } from './helper';
 export default function ReceiptCard(props) {
     const navigate = useNavigate();
     const cardStyle = {
-        backgroundColor: "#F7B733",
+        backgroundColor: "#F5b125",
         mx: 2,
     }
 
